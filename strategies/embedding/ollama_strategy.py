@@ -1,6 +1,6 @@
 from .base_embedding_strategy import BaseEmbeddingStrategy
 from langchain_core.embeddings import Embeddings
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from core.config import config
 
 class OllamaStrategy(BaseEmbeddingStrategy):

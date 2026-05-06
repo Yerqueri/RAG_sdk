@@ -8,3 +8,14 @@ services:
       - "6334:6334"
     volumes:
       - ./qdrant_data:/qdrant/storage
+
+  neo4j:
+    image: neo4j:5
+    ports:
+      - "7474:7474"   # Browser UI
+      - "7687:7687"   # Bolt protocol
+    environment:
+      - NEO4J_AUTH=neo4j/password   # Change this! Must match NEO4J_USERNAME/NEO4J_PASSWORD in .env
+      - NEO4J_PLUGINS=["apoc"]
+    volumes:
+      - ./neo4j_data:/data

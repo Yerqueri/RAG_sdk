@@ -69,4 +69,35 @@ class Config:
     def gemini_embedding_model(self) -> str:
         return self.get_env_var("GEMINI_EMBEDDING_MODEL", "models/embedding-001")
 
+    # ── Graph Store ──────────────────────────────────────────────────── #
+
+    @property
+    def graph_store_provider(self) -> str:
+        return self.get_env_var("GRAPH_STORE_PROVIDER", "neo4j").lower()
+
+    @property
+    def neo4j_url(self) -> str:
+        return self.get_env_var("NEO4J_URL", "bolt://localhost:7687")
+
+    @property
+    def neo4j_username(self) -> str:
+        return self.get_env_var("NEO4J_USERNAME", "neo4j")
+
+    @property
+    def neo4j_password(self) -> str:
+        return self.get_env_var("NEO4J_PASSWORD", "password")
+
+    # ── Entity Extraction ─────────────────────────────────────────────── #
+
+    @property
+    def entity_extraction_provider(self) -> str:
+        return self.get_env_var("ENTITY_EXTRACTION_PROVIDER", "llm").lower()
+
+    # ── Retrieval Mode ────────────────────────────────────────────────── #
+
+    @property
+    def retrieval_mode(self) -> str:
+        """'vector' | 'graph' | 'hybrid'  (default: 'vector' for backward compat)"""
+        return self.get_env_var("RETRIEVAL_MODE", "vector").lower()
+
 config = Config()
