@@ -27,7 +27,7 @@ class LLMEntityExtractionStrategy(BaseEntityExtractionStrategy):
 
     def __init__(self, llm_provider: str = None):
         # Import here to avoid circular imports at module load time
-        from factories.llm_factory import LLMFactory
+        from rag_sdk.factories.llm_factory import LLMFactory
         self.llm = LLMFactory.get_llm(provider=llm_provider)
 
     # ------------------------------------------------------------------ #

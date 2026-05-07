@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag_sdk"
+version = "0.1.0"
+description = "Enterprise Knowledge Graph RAG Pipeline SDK"
+authors = [
+    {name = "Your Name", email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "langchain>=0.1.16",
+    "langchain-community>=0.0.34",
+    "langchain-core>=0.1.45",
+    "langchain-text-splitters>=0.0.1",
+    "qdrant-client>=1.8.2",
+    "chromadb>=0.4.24",
+    "langchain-openai>=0.1.3",
+    "langchain-google-genai>=1.0.3",
+    "langchain-anthropic>=0.1.11",
+    "langchain-ollama>=0.1.0",
+    "langchain-qdrant>=0.1.0",
+    "python-dotenv>=1.0.1",
+    "pypdf>=4.2.0",
+    "beautifulsoup4>=4.12.3",
+    "unstructured>=0.13.2",
+    "openpyxl>=3.1.2",
+    "neo4j>=5.19.0",
+    "spacy>=3.7.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["rag_sdk*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

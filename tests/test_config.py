@@ -33,7 +33,7 @@ def _cfg_prop(prop: str, **env_overrides):
     """
     env = {**_BASE_ENV, **env_overrides}
     with patch.dict(os.environ, env, clear=True):
-        from core.config import Config
+        from rag_sdk.core.config import Config
         return getattr(Config(), prop)
 
 
@@ -99,7 +99,7 @@ def test_graph_store_provider_from_env():
 def test_missing_required_var_raises():
     """Config.get_env_var should raise ValueError when a required var is absent."""
     with patch.dict(os.environ, {}, clear=True):
-        from core.config import Config
+        from rag_sdk.core.config import Config
         cfg = Config()
         with pytest.raises(ValueError, match="Missing required environment variable"):
             _ = cfg.llm_provider

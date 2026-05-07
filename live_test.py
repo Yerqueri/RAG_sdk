@@ -266,7 +266,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.2 Strategy instantiation ───────────────────────────────────────── #
     def test_strategy_init():
-        from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+        from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
         s = Neo4jStrategy(neo4j_url, neo4j_user, neo4j_pw)
         s.close()
 
@@ -275,7 +275,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.3 store_graph — single chunk, single entity ────────────────────── #
     def test_store_single_chunk():
-        from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+        from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
         s = Neo4jStrategy(neo4j_url, neo4j_user, neo4j_pw)
         chunk = Document(page_content="Acme Corporation was founded by Jane Smith.",
                          metadata={"source": "live_test::single"})
@@ -290,7 +290,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.4 store_graph — multiple chunks + NEXT edges ───────────────────── #
     def test_store_multiple_chunks():
-        from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+        from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
         s = Neo4jStrategy(neo4j_url, neo4j_user, neo4j_pw)
         chunks = [Document(page_content=c["content"], metadata={"source": c["source"]})
                   for c in _CORPUS]
@@ -315,7 +315,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.5 get_related_chunks — exact match ────────────────────────────── #
     def test_get_related_exact():
-        from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+        from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
         s = Neo4jStrategy(neo4j_url, neo4j_user, neo4j_pw)
         results = s.get_related_chunks(["Acme Corporation"], k=5)
         s.close()
@@ -327,7 +327,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.6 get_related_chunks — case-insensitive ────────────────────────── #
     def test_get_related_case():
-        from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+        from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
         s = Neo4jStrategy(neo4j_url, neo4j_user, neo4j_pw)
         upper = s.get_related_chunks(["ACME CORPORATION"], k=5)
         lower = s.get_related_chunks(["acme corporation"], k=5)
@@ -339,7 +339,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.7 get_related_chunks — k limit respected ───────────────────────── #
     def test_get_related_k_limit():
-        from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+        from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
         s = Neo4jStrategy(neo4j_url, neo4j_user, neo4j_pw)
         results = s.get_related_chunks(["Acme Corporation", "Jane Smith",
                                         "TechVentures Inc.", "Robert Chen"], k=2)
@@ -351,7 +351,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.8 get_related_chunks — empty returns [] ────────────────────────── #
     def test_get_related_empty():
-        from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+        from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
         s = Neo4jStrategy(neo4j_url, neo4j_user, neo4j_pw)
         results = s.get_related_chunks([], k=10)
         s.close()
@@ -362,7 +362,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.9 get_related_chunks — unknown entity returns [] ───────────────── #
     def test_get_related_unknown():
-        from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+        from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
         s = Neo4jStrategy(neo4j_url, neo4j_user, neo4j_pw)
         results = s.get_related_chunks(["XYZZY_ENTITY_THAT_DOES_NOT_EXIST_12345"], k=5)
         s.close()
@@ -424,7 +424,7 @@ def run_neo4j_section(neo4j_url, neo4j_user, neo4j_pw, available):
 
     # ── 1.12 GraphStore facade delegates correctly ───────────────────────── #
     def test_graph_store_facade():
-        from core.graph_store import GraphStore
+        from rag_sdk.core.graph_store import GraphStore
         from langchain_core.documents import Document
         os.environ.setdefault("GRAPH_STORE_PROVIDER", "neo4j")
         gs = GraphStore()
@@ -480,8 +480,8 @@ def run_qdrant_section(qdrant_url, qdrant_available, embed_available, embed_prov
     # ── 2.3 QdrantStrategy store + retrieve ──────────────────────────────── #
     def test_qdrant_strategy_store():
         from langchain_core.documents import Document
-        from factories.embedding_factory import EmbeddingFactory
-        from factories.vector_store_factory import VectorStoreFactory
+        from rag_sdk.factories.embedding_factory import EmbeddingFactory
+        from rag_sdk.factories.vector_store_factory import VectorStoreFactory
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         embeddings = EmbeddingFactory.get_embeddings(provider=embed_provider)
         vs = VectorStoreFactory.get_vector_store(provider="qdrant")
@@ -496,8 +496,8 @@ def run_qdrant_section(qdrant_url, qdrant_available, embed_available, embed_prov
 
     # ── 2.4 Retrieve relevant chunks ─────────────────────────────────────── #
     def test_qdrant_retrieval():
-        from factories.embedding_factory import EmbeddingFactory
-        from factories.vector_store_factory import VectorStoreFactory
+        from rag_sdk.factories.embedding_factory import EmbeddingFactory
+        from rag_sdk.factories.vector_store_factory import VectorStoreFactory
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         embeddings = EmbeddingFactory.get_embeddings(provider=embed_provider)
         vs = VectorStoreFactory.get_vector_store(provider="qdrant")
@@ -515,8 +515,8 @@ def run_qdrant_section(qdrant_url, qdrant_available, embed_available, embed_prov
 
     # ── 2.5 k parameter is respected ─────────────────────────────────────── #
     def test_qdrant_k_limit():
-        from factories.embedding_factory import EmbeddingFactory
-        from factories.vector_store_factory import VectorStoreFactory
+        from rag_sdk.factories.embedding_factory import EmbeddingFactory
+        from rag_sdk.factories.vector_store_factory import VectorStoreFactory
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         embeddings = EmbeddingFactory.get_embeddings(provider=embed_provider)
         vs = VectorStoreFactory.get_vector_store(provider="qdrant")
@@ -542,7 +542,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.1 spaCy extracts known entities ────────────────────────────────── #
     def test_spacy_extracts_person():
-        from strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
         s = SpacyEntityExtractionStrategy()
         results = s.extract(sample_text)
         names = [e["entity"] for e in results]
@@ -556,7 +556,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.2 spaCy extracts ORG ────────────────────────────────────────────── #
     def test_spacy_extracts_org():
-        from strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
         s = SpacyEntityExtractionStrategy()
         results = s.extract(sample_text)
         types = [e["type"] for e in results]
@@ -568,7 +568,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.3 spaCy extracts LOCATION ──────────────────────────────────────── #
     def test_spacy_extracts_location():
-        from strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
         s = SpacyEntityExtractionStrategy()
         results = s.extract(sample_text)
         types = [e["type"] for e in results]
@@ -580,7 +580,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.4 spaCy empty text returns [] ──────────────────────────────────── #
     def test_spacy_empty():
-        from strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
         s = SpacyEntityExtractionStrategy()
         assert s.extract("") == []
         assert s.extract("   ") == []
@@ -591,7 +591,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.5 spaCy deduplicates ────────────────────────────────────────────── #
     def test_spacy_no_duplicates():
-        from strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy import SpacyEntityExtractionStrategy
         s = SpacyEntityExtractionStrategy()
         text = "Apple Apple Apple Apple Microsoft Microsoft"
         results = s.extract(text)
@@ -604,7 +604,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.6 LLM entity extraction returns list ────────────────────────────── #
     def test_llm_returns_list():
-        from strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
         s = LLMEntityExtractionStrategy(llm_provider=llm_provider)
         results = s.extract(sample_text)
         assert isinstance(results, list), f"Expected list, got {type(results)}"
@@ -615,7 +615,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.7 LLM extracts at least one entity ─────────────────────────────── #
     def test_llm_extracts_entities():
-        from strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
         s = LLMEntityExtractionStrategy(llm_provider=llm_provider)
         results = s.extract(sample_text)
         assert len(results) > 0, "LLM returned no entities from Acme Corp text"
@@ -626,7 +626,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.8 LLM result items have required keys ───────────────────────────── #
     def test_llm_entity_shape():
-        from strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
         s = LLMEntityExtractionStrategy(llm_provider=llm_provider)
         results = s.extract(sample_text)
         for item in results:
@@ -641,7 +641,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.9 LLM extracts relationships ───────────────────────────────────── #
     def test_llm_extracts_relations():
-        from strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
         s = LLMEntityExtractionStrategy(llm_provider=llm_provider)
         # Text with an obvious relationship
         text = ("Acme Corporation is led by CEO Jane Smith, "
@@ -656,7 +656,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
 
     # ── 3.10 LLM empty text returns [] ───────────────────────────────────── #
     def test_llm_empty_text():
-        from strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
+        from rag_sdk.strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
         s = LLMEntityExtractionStrategy(llm_provider=llm_provider)
         assert s.extract("") == []
         assert s.extract("  \n\t  ") == []
@@ -668,7 +668,7 @@ def run_entity_section(llm_available, llm_provider, spacy_available):
     # ── 3.11 EntityExtractor facade — extract_from_chunks ────────────────── #
     def test_entity_extractor_facade():
         from langchain_core.documents import Document
-        from core.entity_extractor import EntityExtractor
+        from rag_sdk.core.entity_extractor import EntityExtractor
         extractor = EntityExtractor(provider="spacy")
         chunks = [Document(page_content=c["content"]) for c in _CORPUS]
         results = extractor.extract_from_chunks(chunks)
@@ -697,9 +697,9 @@ def run_hybrid_section(neo4j_available, qdrant_available, embed_available,
     def test_hybrid_vector_only():
         from langchain_core.callbacks import CallbackManagerForRetrieverRun
         from langchain_core.documents import Document
-        from core.hybrid_retriever import HybridRetriever
-        from factories.embedding_factory import EmbeddingFactory
-        from factories.vector_store_factory import VectorStoreFactory
+        from rag_sdk.core.hybrid_retriever import HybridRetriever
+        from rag_sdk.factories.embedding_factory import EmbeddingFactory
+        from rag_sdk.factories.vector_store_factory import VectorStoreFactory
 
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         embeddings = EmbeddingFactory.get_embeddings(provider=embed_provider)
@@ -722,9 +722,9 @@ def run_hybrid_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 4.2 Graph-only mode ──────────────────────────────────────────────── #
     def test_hybrid_graph_only():
-        from core.hybrid_retriever import HybridRetriever
-        from core.graph_store import GraphStore
-        from core.entity_extractor import EntityExtractor
+        from rag_sdk.core.hybrid_retriever import HybridRetriever
+        from rag_sdk.core.graph_store import GraphStore
+        from rag_sdk.core.entity_extractor import EntityExtractor
 
         os.environ.setdefault("GRAPH_STORE_PROVIDER", "neo4j")
         gs = GraphStore()
@@ -748,11 +748,11 @@ def run_hybrid_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 4.3 Hybrid mode — union of vector + graph ────────────────────────── #
     def test_hybrid_combined():
-        from core.hybrid_retriever import HybridRetriever
-        from core.graph_store import GraphStore
-        from core.entity_extractor import EntityExtractor
-        from factories.embedding_factory import EmbeddingFactory
-        from factories.vector_store_factory import VectorStoreFactory
+        from rag_sdk.core.hybrid_retriever import HybridRetriever
+        from rag_sdk.core.graph_store import GraphStore
+        from rag_sdk.core.entity_extractor import EntityExtractor
+        from rag_sdk.factories.embedding_factory import EmbeddingFactory
+        from rag_sdk.factories.vector_store_factory import VectorStoreFactory
 
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         os.environ.setdefault("GRAPH_STORE_PROVIDER", "neo4j")
@@ -777,11 +777,11 @@ def run_hybrid_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 4.4 No duplicate content across vector + graph results ───────────── #
     def test_hybrid_no_duplicates():
-        from core.hybrid_retriever import HybridRetriever
-        from core.graph_store import GraphStore
-        from core.entity_extractor import EntityExtractor
-        from factories.embedding_factory import EmbeddingFactory
-        from factories.vector_store_factory import VectorStoreFactory
+        from rag_sdk.core.hybrid_retriever import HybridRetriever
+        from rag_sdk.core.graph_store import GraphStore
+        from rag_sdk.core.entity_extractor import EntityExtractor
+        from rag_sdk.factories.embedding_factory import EmbeddingFactory
+        from rag_sdk.factories.vector_store_factory import VectorStoreFactory
 
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         embeddings = EmbeddingFactory.get_embeddings(provider=embed_provider)
@@ -806,9 +806,9 @@ def run_hybrid_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 4.5 Graph results tagged with source=knowledge_graph ─────────────── #
     def test_hybrid_graph_source_tag():
-        from core.hybrid_retriever import HybridRetriever
-        from core.graph_store import GraphStore
-        from core.entity_extractor import EntityExtractor
+        from rag_sdk.core.hybrid_retriever import HybridRetriever
+        from rag_sdk.core.graph_store import GraphStore
+        from rag_sdk.core.entity_extractor import EntityExtractor
 
         gs = GraphStore()
         extractor = EntityExtractor(provider="spacy")
@@ -845,7 +845,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 5.1 RAGClient default constructor ────────────────────────────────── #
     def test_client_instantiates():
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient()
         assert client.enable_graph is False
         assert client.retrieval_mode is None
@@ -854,7 +854,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 5.2 RAGClient graph constructor ──────────────────────────────────── #
     def test_client_graph_flags():
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient(
             enable_graph=True,
             retrieval_mode="hybrid",
@@ -869,7 +869,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
     # ── 5.3 Vector-only ingest of in-memory text ──────────────────────────── #
     def test_vector_ingest():
         import tempfile, textwrap
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         # Write corpus to temp files
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -891,7 +891,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
     # ── 5.4 Graph-augmented ingest with spaCy ────────────────────────────── #
     def test_graph_ingest_spacy():
         import tempfile
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         with tempfile.TemporaryDirectory() as tmpdir:
             for i, doc in enumerate(_CORPUS):
@@ -913,7 +913,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 5.5 Vector-only query returns string answer ───────────────────────── #
     def test_vector_query():
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         client = RAGClient(
             llm_provider=llm_provider,
@@ -931,7 +931,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 5.6 Hybrid query returns string answer ────────────────────────────── #
     def test_hybrid_query():
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         client = RAGClient(
             llm_provider=llm_provider,
@@ -952,7 +952,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 5.7 Graph-only query ──────────────────────────────────────────────── #
     def test_graph_only_query():
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         client = RAGClient(
             llm_provider=llm_provider,
@@ -972,7 +972,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 5.8 Provider override: switch LLM mid-session ────────────────────── #
     def test_provider_override():
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         # Two clients with different explicit providers — both must instantiate cleanly
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         c1 = RAGClient(embedding_provider=embed_provider, vector_db_provider="qdrant", retrieval_mode="vector")
@@ -987,7 +987,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
     # ── 5.9 ingest_file with a single .txt file ───────────────────────────── #
     def test_ingest_single_file():
         import tempfile
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         with tempfile.NamedTemporaryFile(suffix=".txt", mode="w", delete=False) as f:
             f.write(_CORPUS[2]["content"])
@@ -1008,7 +1008,7 @@ def run_sdk_section(neo4j_available, qdrant_available, embed_available,
 
     # ── 5.10 Missing file raises FileNotFoundError ─────────────────────────── #
     def test_missing_file_raises():
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient()
         try:
             client.ingest_file("/tmp/this_file_does_not_exist_live_test.txt")
@@ -1165,8 +1165,8 @@ def run_perf_section(neo4j_available, neo4j_url, neo4j_user, neo4j_pw,
 
     # ── 7.2 Qdrant vector search latency < 3 s ───────────────────────────── #
     def test_qdrant_latency():
-        from factories.embedding_factory import EmbeddingFactory
-        from factories.vector_store_factory import VectorStoreFactory
+        from rag_sdk.factories.embedding_factory import EmbeddingFactory
+        from rag_sdk.factories.vector_store_factory import VectorStoreFactory
         os.environ["COLLECTION_NAME"] = _TEST_COLLECTION
         embeddings = EmbeddingFactory.get_embeddings(provider=embed_provider)
         vs = VectorStoreFactory.get_vector_store(provider="qdrant")
@@ -1188,7 +1188,7 @@ def run_perf_section(neo4j_available, neo4j_url, neo4j_user, neo4j_pw,
     # ── 7.3 Entity extraction (spaCy) processes 3 docs in < 5 s ─────────── #
     def test_spacy_throughput():
         from langchain_core.documents import Document
-        from core.entity_extractor import EntityExtractor
+        from rag_sdk.core.entity_extractor import EntityExtractor
         extractor = EntityExtractor(provider="spacy")
         chunks = [Document(page_content=c["content"]) for c in _CORPUS]
         t0 = time.monotonic()

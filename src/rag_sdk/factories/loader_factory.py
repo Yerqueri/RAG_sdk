@@ -1,8 +1,8 @@
 import os
-from strategies.loader.base_loader_strategy import BaseLoaderStrategy
-from strategies.loader.text_loader_strategy import TextLoaderStrategy
-from strategies.loader.pdf_loader_strategy import PDFLoaderStrategy
-from strategies.loader.excel_loader_strategy import ExcelLoaderStrategy
+from rag_sdk.strategies.loader.base_loader_strategy import BaseLoaderStrategy
+from rag_sdk.strategies.loader.text_loader_strategy import TextLoaderStrategy
+from rag_sdk.strategies.loader.pdf_loader_strategy import PDFLoaderStrategy
+from rag_sdk.strategies.loader.excel_loader_strategy import ExcelLoaderStrategy
 
 class LoaderFactory:
     @staticmethod

@@ -1,9 +1,9 @@
 from langchain_core.language_models.chat_models import BaseChatModel
-from strategies.llm.openai_strategy import OpenAIStrategy
-from strategies.llm.gemini_strategy import GeminiStrategy
-from strategies.llm.anthropic_strategy import AnthropicStrategy
-from strategies.llm.openrouter_strategy import OpenRouterStrategy
-from core.config import config
+from rag_sdk.strategies.llm.openai_strategy import OpenAIStrategy
+from rag_sdk.strategies.llm.gemini_strategy import GeminiStrategy
+from rag_sdk.strategies.llm.anthropic_strategy import AnthropicStrategy
+from rag_sdk.strategies.llm.openrouter_strategy import OpenRouterStrategy
+from rag_sdk.core.config import config
 
 class LLMFactory:
     @staticmethod

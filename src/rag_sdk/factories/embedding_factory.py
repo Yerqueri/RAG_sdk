@@ -1,8 +1,8 @@
 from langchain_core.embeddings import Embeddings
-from strategies.embedding.ollama_strategy import OllamaStrategy
-from strategies.embedding.openai_strategy import OpenAIStrategy
-from strategies.embedding.gemini_strategy import GeminiStrategy
-from core.config import config
+from rag_sdk.strategies.embedding.ollama_strategy import OllamaStrategy
+from rag_sdk.strategies.embedding.openai_strategy import OpenAIStrategy
+from rag_sdk.strategies.embedding.gemini_strategy import GeminiStrategy
+from rag_sdk.core.config import config
 
 class EmbeddingFactory:
     @staticmethod

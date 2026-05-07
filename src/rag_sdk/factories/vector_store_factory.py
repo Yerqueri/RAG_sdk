@@ -1,7 +1,7 @@
-from strategies.vector_store.base_vector_strategy import BaseVectorStrategy
-from strategies.vector_store.qdrant_strategy import QdrantStrategy
-from strategies.vector_store.chroma_strategy import ChromaStrategy
-from core.config import config
+from rag_sdk.strategies.vector_store.base_vector_strategy import BaseVectorStrategy
+from rag_sdk.strategies.vector_store.qdrant_strategy import QdrantStrategy
+from rag_sdk.strategies.vector_store.chroma_strategy import ChromaStrategy
+from rag_sdk.core.config import config
 
 class VectorStoreFactory:
     @staticmethod

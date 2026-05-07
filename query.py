@@ -1,5 +1,5 @@
 import argparse
-from sdk import RAGClient
+from rag_sdk.sdk import RAGClient
 
 
 def main():

@@ -38,7 +38,7 @@ def _make_strategy(entities=None):
         entities = []
     mock_spacy = _mock_spacy(entities)
     with patch.dict("sys.modules", {"spacy": mock_spacy}):
-        from strategies.entity_extraction.spacy_entity_extraction_strategy import (
+        from rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy import (
             SpacyEntityExtractionStrategy,
         )
         return SpacyEntityExtractionStrategy.__new__(SpacyEntityExtractionStrategy), mock_spacy
@@ -52,7 +52,7 @@ def _build(entities=None):
     with patch.dict("sys.modules", {"spacy": mock_spacy}):
         # Must import inside the patch context so spacy is the mock
         import importlib
-        import strategies.entity_extraction.spacy_entity_extraction_strategy as mod
+        import rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy as mod
         importlib.reload(mod)
         s = mod.SpacyEntityExtractionStrategy.__new__(mod.SpacyEntityExtractionStrategy)
         s.nlp = mock_spacy.load.return_value
@@ -130,7 +130,7 @@ def test_spacy_import_error_on_missing_spacy():
     # Temporarily remove spacy from sys.modules
     with patch.dict("sys.modules", {"spacy": None}):
         import importlib
-        import strategies.entity_extraction.spacy_entity_extraction_strategy as mod
+        import rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy as mod
         importlib.reload(mod)
         with pytest.raises(ImportError, match="spaCy is not installed"):
             mod.SpacyEntityExtractionStrategy()

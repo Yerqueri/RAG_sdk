@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 from langchain_core.documents import Document
 from langchain_core.callbacks import CallbackManagerForRetrieverRun
 
-from core.hybrid_retriever import HybridRetriever
+from rag_sdk.core.hybrid_retriever import HybridRetriever
 
 
 # ---------------------------------------------------------------------------

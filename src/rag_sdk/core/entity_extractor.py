@@ -2,8 +2,8 @@ from typing import Dict, List, Optional
 
 from langchain_core.documents import Document
 
-from factories.entity_extraction_factory import EntityExtractionFactory
-from strategies.entity_extraction.base_entity_extraction_strategy import (
+from rag_sdk.factories.entity_extraction_factory import EntityExtractionFactory
+from rag_sdk.strategies.entity_extraction.base_entity_extraction_strategy import (
     BaseEntityExtractionStrategy,
 )
 

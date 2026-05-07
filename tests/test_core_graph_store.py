@@ -10,7 +10,7 @@ def _make_graph_store():
     # Patch where GraphStoreFactory is imported inside core.graph_store
     with patch("core.graph_store.GraphStoreFactory.get_graph_store",
                return_value=mock_strategy):
-        from core.graph_store import GraphStore
+        from rag_sdk.core.graph_store import GraphStore
         gs = GraphStore(provider="neo4j")
     return gs, mock_strategy
 
@@ -53,7 +53,7 @@ def test_graph_store_init_uses_factory():
     mock_strategy = MagicMock()
     with patch("core.graph_store.GraphStoreFactory.get_graph_store",
                return_value=mock_strategy) as mock_factory:
-        from core.graph_store import GraphStore
+        from rag_sdk.core.graph_store import GraphStore
         GraphStore(provider="neo4j")
         mock_factory.assert_called_once_with(provider="neo4j")
 
@@ -65,7 +65,7 @@ def test_graph_store_provider_override_passed_to_factory():
     mock_strategy = MagicMock()
     with patch("core.graph_store.GraphStoreFactory.get_graph_store",
                return_value=mock_strategy) as mock_factory:
-        from core.graph_store import GraphStore
+        from rag_sdk.core.graph_store import GraphStore
         GraphStore(provider="custom_graph")
         mock_factory.assert_called_once_with(provider="custom_graph")
 

@@ -28,7 +28,7 @@ _BASE_ENV = {
 
 def _make_client(**kwargs):
     with patch.dict(os.environ, _BASE_ENV, clear=True):
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         return RAGClient(**kwargs)
 
 
@@ -57,7 +57,7 @@ def test_ingest_file_calls_document_loader():
          patch("core.text_chunker.TextChunker.split", return_value=[]), \
          patch("factories.embedding_factory.EmbeddingFactory.get_embeddings", return_value=MagicMock()), \
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=MagicMock(store=MagicMock())):
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient()
         client.ingest_file("./data/test.txt")
         mock_load.assert_called_once_with("./data/test.txt")
@@ -72,8 +72,8 @@ def test_ingest_directory_uses_config_data_dir_when_no_arg():
          patch("core.text_chunker.TextChunker.split", return_value=[]), \
          patch("factories.embedding_factory.EmbeddingFactory.get_embeddings", return_value=MagicMock()), \
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=MagicMock(store=MagicMock())):
-        from sdk import RAGClient
-        from core.config import config
+        from rag_sdk.sdk import RAGClient
+        from rag_sdk.core.config import config
         client = RAGClient()
         client.ingest_directory()
         mock_load.assert_called_once_with(config.data_dir)
@@ -88,7 +88,7 @@ def test_ingest_directory_uses_provided_path():
          patch("core.text_chunker.TextChunker.split", return_value=[]), \
          patch("factories.embedding_factory.EmbeddingFactory.get_embeddings", return_value=MagicMock()), \
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=MagicMock(store=MagicMock())):
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient()
         client.ingest_directory("./custom_docs")
         mock_load.assert_called_once_with("./custom_docs")
@@ -105,7 +105,7 @@ def test_ingest_documents_calls_chunker():
          patch("sdk.TextChunker", return_value=mock_chunker), \
          patch("factories.embedding_factory.EmbeddingFactory.get_embeddings", return_value=MagicMock()), \
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=MagicMock(store=MagicMock())):
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient()
         client._ingest_documents([Document(page_content="hello")])
         mock_chunker.split.assert_called_once()
@@ -120,7 +120,7 @@ def test_ingest_documents_calls_vector_store():
          patch("core.text_chunker.TextChunker.split", return_value=[Document(page_content="c")]), \
          patch("factories.embedding_factory.EmbeddingFactory.get_embeddings", return_value=MagicMock()), \
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=mock_vs):
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient()
         client._ingest_documents([Document(page_content="hello")])
         mock_vs.store.assert_called_once()
@@ -142,7 +142,7 @@ def test_enable_graph_calls_entity_extractor():
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=MagicMock(store=MagicMock())), \
          patch("core.entity_extractor.EntityExtractor", return_value=mock_extractor), \
          patch("core.graph_store.GraphStore", return_value=mock_gs):
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient(enable_graph=True)
         client._ingest_documents([Document(page_content="hello")])
         mock_extractor.extract_from_chunks.assert_called_once()
@@ -164,7 +164,7 @@ def test_enable_graph_calls_graph_store_store_graph():
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=MagicMock(store=MagicMock())), \
          patch("core.entity_extractor.EntityExtractor", return_value=mock_extractor), \
          patch("core.graph_store.GraphStore", return_value=mock_gs):
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient(enable_graph=True)
         client._ingest_documents([Document(page_content="hello")])
         mock_gs.store_graph.assert_called()
@@ -185,7 +185,7 @@ def test_query_vector_mode_does_not_use_hybrid_retriever():
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=mock_vs), \
          patch("factories.llm_factory.LLMFactory.get_llm", return_value=mock_llm), \
          patch("core.hybrid_retriever.HybridRetriever") as mock_hr_class:
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient(retrieval_mode="vector")
         try:
             client.query("What is X?")
@@ -211,7 +211,7 @@ def test_query_hybrid_mode_instantiates_hybrid_retriever():
          patch("core.entity_extractor.EntityExtractor", return_value=mock_ee), \
          patch("core.hybrid_retriever.HybridRetriever") as mock_hr_class:
         mock_hr_class.return_value = MagicMock()
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient(retrieval_mode="hybrid")
         try:
             client.query("Find entities")
@@ -236,7 +236,7 @@ def test_query_falls_back_to_vector_when_retrieval_mode_env_raises():
          patch("factories.vector_store_factory.VectorStoreFactory.get_vector_store", return_value=mock_vs), \
          patch("factories.llm_factory.LLMFactory.get_llm", return_value=MagicMock()), \
          patch("core.hybrid_retriever.HybridRetriever") as mock_hr_class:
-        from sdk import RAGClient
+        from rag_sdk.sdk import RAGClient
         client = RAGClient()  # no retrieval_mode set
         try:
             client.query("test question")

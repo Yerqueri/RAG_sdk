@@ -1,12 +1,12 @@
 from collections import defaultdict
 from typing import Optional
 
-from core.config import config
-from core.document_loader import DocumentLoader
-from core.text_chunker import TextChunker
-from factories.embedding_factory import EmbeddingFactory
-from factories.llm_factory import LLMFactory
-from factories.vector_store_factory import VectorStoreFactory
+from rag_sdk.core.config import config
+from rag_sdk.core.document_loader import DocumentLoader
+from rag_sdk.core.text_chunker import TextChunker
+from rag_sdk.factories.embedding_factory import EmbeddingFactory
+from rag_sdk.factories.llm_factory import LLMFactory
+from rag_sdk.factories.vector_store_factory import VectorStoreFactory
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -65,8 +65,8 @@ class RAGClient:
         # ── Optional graph ingestion ─────────────────────────────────── #
         if self.enable_graph:
             print("\nExtracting entities and building knowledge graph...")
-            from core.entity_extractor import EntityExtractor
-            from core.graph_store import GraphStore
+            from rag_sdk.core.entity_extractor import EntityExtractor
+            from rag_sdk.core.graph_store import GraphStore
 
             extractor = EntityExtractor(
                 provider=self.entity_extraction_provider,
@@ -113,9 +113,9 @@ class RAGClient:
 
         # ── Build retriever ──────────────────────────────────────────── #
         if mode in ("graph", "hybrid"):
-            from core.entity_extractor import EntityExtractor
-            from core.graph_store import GraphStore
-            from core.hybrid_retriever import HybridRetriever
+            from rag_sdk.core.entity_extractor import EntityExtractor
+            from rag_sdk.core.graph_store import GraphStore
+            from rag_sdk.core.hybrid_retriever import HybridRetriever
 
             graph_store = GraphStore(provider=self.graph_store_provider)
             entity_extractor = EntityExtractor(

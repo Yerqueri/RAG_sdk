@@ -64,9 +64,9 @@ def test_graph_factory_returns_neo4j_strategy():
     with patch.dict(os.environ, _graph_env(), clear=True), \
          patch.dict(sys.modules, {"neo4j": mock_neo4j}):
         import importlib
-        import strategies.graph_store.neo4j_strategy as nmod
+        import rag_sdk.strategies.graph_store.neo4j_strategy as nmod
         importlib.reload(nmod)
-        import factories.graph_store_factory as gfmod
+        import rag_sdk.factories.graph_store_factory as gfmod
         importlib.reload(gfmod)
         result = gfmod.GraphStoreFactory.get_graph_store(provider="neo4j")
         assert isinstance(result, nmod.Neo4jStrategy)
@@ -78,7 +78,7 @@ def test_graph_factory_unknown_provider_raises():
     with patch.dict(os.environ, _graph_env(), clear=True), \
          patch.dict(sys.modules, {"neo4j": mock_neo4j}):
         import importlib
-        import factories.graph_store_factory as gfmod
+        import rag_sdk.factories.graph_store_factory as gfmod
         importlib.reload(gfmod)
         with pytest.raises(ValueError, match="Unsupported GRAPH_STORE_PROVIDER"):
             gfmod.GraphStoreFactory.get_graph_store(provider="postgres")
@@ -90,9 +90,9 @@ def test_graph_factory_uses_config_default_when_no_provider():
     with patch.dict(os.environ, _graph_env(GRAPH_STORE_PROVIDER="neo4j"), clear=True), \
          patch.dict(sys.modules, {"neo4j": mock_neo4j}):
         import importlib
-        import strategies.graph_store.neo4j_strategy as nmod
+        import rag_sdk.strategies.graph_store.neo4j_strategy as nmod
         importlib.reload(nmod)
-        import factories.graph_store_factory as gfmod
+        import rag_sdk.factories.graph_store_factory as gfmod
         importlib.reload(gfmod)
         result = gfmod.GraphStoreFactory.get_graph_store()
         assert isinstance(result, nmod.Neo4jStrategy)
@@ -104,9 +104,9 @@ def test_graph_factory_passes_correct_url():
     with patch.dict(os.environ, _graph_env(NEO4J_URL="bolt://myhost:7687"), clear=True), \
          patch.dict(sys.modules, {"neo4j": mock_neo4j}):
         import importlib
-        import strategies.graph_store.neo4j_strategy as nmod
+        import rag_sdk.strategies.graph_store.neo4j_strategy as nmod
         importlib.reload(nmod)
-        import factories.graph_store_factory as gfmod
+        import rag_sdk.factories.graph_store_factory as gfmod
         importlib.reload(gfmod)
         gfmod.GraphStoreFactory.get_graph_store(provider="neo4j")
     call_args = mock_neo4j.GraphDatabase.driver.call_args
@@ -119,9 +119,9 @@ def test_graph_factory_passes_correct_username():
     with patch.dict(os.environ, _graph_env(NEO4J_USERNAME="admin"), clear=True), \
          patch.dict(sys.modules, {"neo4j": mock_neo4j}):
         import importlib
-        import strategies.graph_store.neo4j_strategy as nmod
+        import rag_sdk.strategies.graph_store.neo4j_strategy as nmod
         importlib.reload(nmod)
-        import factories.graph_store_factory as gfmod
+        import rag_sdk.factories.graph_store_factory as gfmod
         importlib.reload(gfmod)
         gfmod.GraphStoreFactory.get_graph_store(provider="neo4j")
     call_args = mock_neo4j.GraphDatabase.driver.call_args
@@ -134,9 +134,9 @@ def test_graph_factory_passes_correct_password():
     with patch.dict(os.environ, _graph_env(NEO4J_PASSWORD="secret123"), clear=True), \
          patch.dict(sys.modules, {"neo4j": mock_neo4j}):
         import importlib
-        import strategies.graph_store.neo4j_strategy as nmod
+        import rag_sdk.strategies.graph_store.neo4j_strategy as nmod
         importlib.reload(nmod)
-        import factories.graph_store_factory as gfmod
+        import rag_sdk.factories.graph_store_factory as gfmod
         importlib.reload(gfmod)
         gfmod.GraphStoreFactory.get_graph_store(provider="neo4j")
     call_args = mock_neo4j.GraphDatabase.driver.call_args
@@ -152,8 +152,8 @@ def test_entity_factory_returns_llm_strategy():
     mock_llm = MagicMock()
     with patch.dict(os.environ, _entity_env(), clear=True), \
          patch("factories.llm_factory.LLMFactory.get_llm", return_value=mock_llm):
-        from factories.entity_extraction_factory import EntityExtractionFactory
-        from strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
+        from rag_sdk.factories.entity_extraction_factory import EntityExtractionFactory
+        from rag_sdk.strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
         result = EntityExtractionFactory.get_extractor(provider="llm")
         assert isinstance(result, LLMEntityExtractionStrategy)
 
@@ -165,9 +165,9 @@ def test_entity_factory_returns_spacy_strategy():
     with patch.dict(os.environ, _entity_env(), clear=True), \
          patch.dict(sys.modules, {"spacy": mock_spacy}):
         import importlib
-        import strategies.entity_extraction.spacy_entity_extraction_strategy as smod
+        import rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy as smod
         importlib.reload(smod)
-        from factories.entity_extraction_factory import EntityExtractionFactory
+        from rag_sdk.factories.entity_extraction_factory import EntityExtractionFactory
         result = EntityExtractionFactory.get_extractor(provider="spacy")
         assert isinstance(result, smod.SpacyEntityExtractionStrategy)
 
@@ -175,7 +175,7 @@ def test_entity_factory_returns_spacy_strategy():
 # Test 57
 def test_entity_factory_unknown_provider_raises():
     with patch.dict(os.environ, _entity_env(), clear=True):
-        from factories.entity_extraction_factory import EntityExtractionFactory
+        from rag_sdk.factories.entity_extraction_factory import EntityExtractionFactory
         with pytest.raises(ValueError, match="Unsupported ENTITY_EXTRACTION_PROVIDER"):
             EntityExtractionFactory.get_extractor(provider="bert")
 
@@ -185,8 +185,8 @@ def test_entity_factory_uses_config_default():
     mock_llm = MagicMock()
     with patch.dict(os.environ, _entity_env(ENTITY_EXTRACTION_PROVIDER="llm"), clear=True), \
          patch("factories.llm_factory.LLMFactory.get_llm", return_value=mock_llm):
-        from factories.entity_extraction_factory import EntityExtractionFactory
-        from strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
+        from rag_sdk.factories.entity_extraction_factory import EntityExtractionFactory
+        from rag_sdk.strategies.entity_extraction.llm_entity_extraction_strategy import LLMEntityExtractionStrategy
         result = EntityExtractionFactory.get_extractor()
         assert isinstance(result, LLMEntityExtractionStrategy)
 
@@ -201,7 +201,7 @@ def test_entity_factory_passes_llm_provider():
 
     with patch.dict(os.environ, _entity_env(), clear=True), \
          patch("factories.llm_factory.LLMFactory.get_llm", side_effect=fake_get_llm):
-        from factories.entity_extraction_factory import EntityExtractionFactory
+        from rag_sdk.factories.entity_extraction_factory import EntityExtractionFactory
         EntityExtractionFactory.get_extractor(provider="llm", llm_provider="anthropic")
     assert captured["provider"] == "anthropic"
 
@@ -211,7 +211,7 @@ def test_entity_factory_llm_strategy_has_extract_method():
     mock_llm = MagicMock()
     with patch.dict(os.environ, _entity_env(), clear=True), \
          patch("factories.llm_factory.LLMFactory.get_llm", return_value=mock_llm):
-        from factories.entity_extraction_factory import EntityExtractionFactory
+        from rag_sdk.factories.entity_extraction_factory import EntityExtractionFactory
         result = EntityExtractionFactory.get_extractor(provider="llm")
         assert callable(getattr(result, "extract", None))
 
@@ -223,9 +223,9 @@ def test_entity_factory_spacy_strategy_has_extract_method():
     with patch.dict(os.environ, _entity_env(), clear=True), \
          patch.dict(sys.modules, {"spacy": mock_spacy}):
         import importlib
-        import strategies.entity_extraction.spacy_entity_extraction_strategy as smod
+        import rag_sdk.strategies.entity_extraction.spacy_entity_extraction_strategy as smod
         importlib.reload(smod)
-        from factories.entity_extraction_factory import EntityExtractionFactory
+        from rag_sdk.factories.entity_extraction_factory import EntityExtractionFactory
         result = EntityExtractionFactory.get_extractor(provider="spacy")
         assert callable(getattr(result, "extract", None))
 

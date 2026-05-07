@@ -1,7 +1,7 @@
 from .base_embedding_strategy import BaseEmbeddingStrategy
 from langchain_core.embeddings import Embeddings
 from langchain_ollama import OllamaEmbeddings
-from core.config import config
+from rag_sdk.core.config import config
 
 class OllamaStrategy(BaseEmbeddingStrategy):
     def get_embeddings(self) -> Embeddings:

@@ -16,7 +16,7 @@ def _make_extractor(return_value=None):
     # Patch where EntityExtractionFactory is used inside core.entity_extractor
     with patch("core.entity_extractor.EntityExtractionFactory.get_extractor",
                return_value=mock_strategy):
-        from core.entity_extractor import EntityExtractor
+        from rag_sdk.core.entity_extractor import EntityExtractor
         extractor = EntityExtractor(provider="llm")
     return extractor, mock_strategy
 

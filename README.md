@@ -42,25 +42,32 @@ The `live_test.py` script provisions a temporary test index, checks system avail
 
 ## Prerequisites & Setup
 
-1.  **Install Dependencies**
-    You can install dependencies using `pip` or the faster `uv` package manager:
+1.  **Install the SDK**
+    You can install this SDK directly using `pip` or the faster `uv` package manager:
 
     **Using uv (Recommended):**
     ```bash
     # Install uv if you don't have it
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
-    # Create a virtual environment and install dependencies
+    # Clone the repository
+    git clone https://github.com/Yerqueri/RAG_sdk.git
+    cd RAG_sdk
+
+    # Create a virtual environment and install the package
     uv venv
     source .venv/bin/activate
-    uv pip install -r requirements.txt
+    uv pip install -e .
     ```
 
     **Using pip:**
     ```bash
+    git clone https://github.com/Yerqueri/RAG_sdk.git
+    cd RAG_sdk
+
     python -m venv .venv
     source .venv/bin/activate
-    pip install -r requirements.txt
+    pip install -e .
     ```
 
     *Optional: spaCy model for offline entity extraction*

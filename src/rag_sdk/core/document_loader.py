@@ -1,7 +1,7 @@
 import os
 from typing import List
 from langchain_core.documents import Document
-from factories.loader_factory import LoaderFactory
+from rag_sdk.factories.loader_factory import LoaderFactory
 
 class DocumentLoader:
     @staticmethod

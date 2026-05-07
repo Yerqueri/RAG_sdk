@@ -5,7 +5,7 @@ import json
 import pytest
 from unittest.mock import MagicMock, patch
 
-from strategies.entity_extraction.llm_entity_extraction_strategy import (
+from rag_sdk.strategies.entity_extraction.llm_entity_extraction_strategy import (
     LLMEntityExtractionStrategy,
 )
 

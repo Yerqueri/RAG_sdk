@@ -30,7 +30,7 @@ def _make_neo4j_strategy():
     mock_neo4j, mock_driver, session = _make_neo4j_mock()
     with patch.dict(sys.modules, {"neo4j": mock_neo4j}):
         import importlib
-        import strategies.graph_store.neo4j_strategy as mod
+        import rag_sdk.strategies.graph_store.neo4j_strategy as mod
         importlib.reload(mod)
         strategy = mod.Neo4jStrategy(
             url="bolt://localhost:7687",
@@ -53,7 +53,7 @@ def test_neo4j_init_creates_driver():
     mock_neo4j, mock_driver, session = _make_neo4j_mock()
     with patch.dict(sys.modules, {"neo4j": mock_neo4j}):
         import importlib
-        import strategies.graph_store.neo4j_strategy as mod
+        import rag_sdk.strategies.graph_store.neo4j_strategy as mod
         importlib.reload(mod)
         mod.Neo4jStrategy("bolt://localhost:7687", "neo4j", "password")
     mock_neo4j.GraphDatabase.driver.assert_called_once_with(

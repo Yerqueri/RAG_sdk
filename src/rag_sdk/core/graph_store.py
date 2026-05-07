@@ -2,8 +2,8 @@ from typing import Dict, List, Optional
 
 from langchain_core.documents import Document
 
-from factories.graph_store_factory import GraphStoreFactory
-from strategies.graph_store.base_graph_strategy import BaseGraphStrategy
+from rag_sdk.factories.graph_store_factory import GraphStoreFactory
+from rag_sdk.strategies.graph_store.base_graph_strategy import BaseGraphStrategy
 
 
 class GraphStore:

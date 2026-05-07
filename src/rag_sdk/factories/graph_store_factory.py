@@ -1,6 +1,6 @@
-from core.config import config
-from strategies.graph_store.base_graph_strategy import BaseGraphStrategy
-from strategies.graph_store.neo4j_strategy import Neo4jStrategy
+from rag_sdk.core.config import config
+from rag_sdk.strategies.graph_store.base_graph_strategy import BaseGraphStrategy
+from rag_sdk.strategies.graph_store.neo4j_strategy import Neo4jStrategy
 
 
 class GraphStoreFactory:
